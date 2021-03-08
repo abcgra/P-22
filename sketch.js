@@ -1,11 +1,14 @@
-var starImg, fairyImg, bgImg;
-var fairy , fairyVoice;
-var star, starBody;
-
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
+
+var starImg, fairyImg, bgImg;
+var fairy , fairyVoice;
+var star, starBody;
+var engine, world;
+
+
 
 function preload()
 {
@@ -19,20 +22,22 @@ function preload()
 function setup() {
 	createCanvas(800, 750);
 
-	// fairyVoice.play();
+	// fairyVoice.play();engine = 
+	engine=Engine.create();
+	world = engine.world;
 
 	fairy = createSprite(130, 520);
 	fairy.addAnimation("fairyflying",fairyImg);  
 	fairy.scale =0.25;
 
+
 	star = createSprite(650,30);
 	star.addImage(starImg);
 	star.scale = 0.2;
 
-	engine = Engine.create();
-	world = engine.world;
+	
 
-	starBody = Bodies.circle(650 , 30 , 5 , {restitution:0.5, isStatic:true});
+	starBody = Bodies.circle(650 , 30 , 5 , {restitution:0.5, isStatic:false});
 	World.add(world, starBody);
 	
 	Engine.run(engine);
@@ -42,11 +47,21 @@ function setup() {
 
 function draw() {
   background(bgImg);
-
+ellipseMode(RADIUS)
+ellipse(starBody.position.x, starBody.position.y,5,5)
+star.y=starBody.position.y;
+	star.x=starBody.position.x;
   drawSprites();
 
 }
 
 function keyPressed() {
-	//write code here
-}
+	if (keyCode === LEFT_ARROW) {
+	  fairy.x = fairy.x - 10;
+	} else if (keyCode === RIGHT_ARROW) {
+	  fairy.x = fairy.x + 10;
+	}
+	
+  }
+
+  
